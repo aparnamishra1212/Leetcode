@@ -1,0 +1,40 @@
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+
+        if (!head || !head->next)
+            return head;
+        //[prv, tmp, t]
+        ListNode* prv = head;
+        ListNode* tmp = head->next;        
+        ListNode* t = head->next->next;
+
+        //[prv, tmp, t] -> [tmp, prv, t]
+        
+        prv->next = t;
+        tmp->next = prv;
+        head = tmp;
+
+        tmp = t;
+                
+        while (tmp && tmp->next) {
+            //now imagine that "tmp" is our new head(but don't touch the head)
+ 			
+            //[.., prv, tmp, tmp->next, t]
+            t = tmp->next->next;
+            
+			//the idea here is to connect the "prv" to the swapped pairs
+            prv->next = tmp->next;
+       
+            //[.., prv, tmp->next, tmp, t]
+            tmp->next->next = tmp;
+            tmp->next = t;
+            
+            //[.., prv, tmp->next, tmp, t]
+            prv = tmp;
+            tmp = t;
+        }
+
+        return head;
+    }
+};
